@@ -1,0 +1,631 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Course Series Introduction: Medical Research & Data Science</title>
+    
+    <!-- Google Fonts & Font Awesome Icons -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Lato:wght@300;400;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css">
+
+    <style>
+        /* --- General Styling --- */
+        :root {
+            --primary-color: #005A9C; /* A professional blue */
+            --secondary-color: #009B77; /* A complementary teal/green */
+            --background-color: #f4f7f6;
+            --card-background: #ffffff;
+            --text-color: #333333;
+            --light-gray: #e9ecef;
+            --border-color: #dee2e6;
+        }
+
+        body {
+            font-family: 'Lato', sans-serif;
+            background-color: var(--background-color);
+            color: var(--text-color);
+            margin: 0;
+            padding: 20px;
+            line-height: 1.6;
+        }
+
+        .container {
+            max-width: 1100px;
+            margin: 20px auto;
+            padding: 20px;
+        }
+
+        /* --- Header --- */
+        header {
+            text-align: center;
+            margin-bottom: 50px;
+            border-bottom: 2px solid var(--primary-color);
+            padding-bottom: 20px;
+        }
+
+        header h1 {
+            font-size: 2.8rem;
+            color: var(--primary-color);
+            margin-bottom: 10px;
+            font-weight: 700;
+        }
+
+        header h2 {
+            font-size: 1.5rem;
+            color: var(--text-color);
+            font-weight: 300;
+        }
+
+        /* --- Course Card Styling --- */
+        .course-card {
+            background: var(--card-background);
+            border-radius: 12px;
+            box-shadow: 0 8px 25px rgba(0, 0, 0, 0.08);
+            margin-bottom: 40px;
+            padding: 30px;
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+        }
+
+        .course-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 12px 35px rgba(0, 90, 156, 0.12);
+        }
+
+        .course-title {
+            font-size: 1.8rem;
+            font-weight: 700;
+            color: var(--primary-color);
+            margin-top: 0;
+            margin-bottom: 10px;
+            display: flex;
+            align-items: center;
+        }
+        
+        .course-title .fa-solid {
+            margin-right: 15px;
+            font-size: 1.5rem;
+            width: 30px;
+            text-align: center;
+        }
+
+        .course-description {
+            font-style: italic;
+            color: #555;
+            margin-bottom: 25px;
+            border-left: 3px solid var(--secondary-color);
+            padding-left: 15px;
+        }
+
+        /* --- Accordion for Modules --- */
+        .accordion {
+            background-color: #f8f9fa;
+            color: var(--text-color);
+            cursor: pointer;
+            padding: 18px 20px;
+            width: 100%;
+            border: none;
+            border-bottom: 1px solid var(--border-color);
+            text-align: left;
+            outline: none;
+            font-size: 1.1rem;
+            font-weight: 700;
+            transition: background-color 0.4s ease;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        
+        .accordion:first-of-type {
+             border-top-left-radius: 8px;
+             border-top-right-radius: 8px;
+        }
+
+        .accordion:last-of-type {
+             border-bottom-left-radius: 8px;
+             border-bottom-right-radius: 8px;
+             border-bottom: none;
+        }
+        
+        .accordion.active, .accordion:hover {
+            background-color: var(--light-gray);
+        }
+
+        .accordion .fa-solid {
+            margin-right: 10px;
+            color: var(--secondary-color);
+        }
+        
+        .accordion .icon-toggle::before {
+            content: '\2b'; /* Plus sign */
+            font-size: 1.2rem;
+            color: var(--primary-color);
+            font-weight: bold;
+        }
+
+        .accordion.active .icon-toggle::before {
+            content: "\2212"; /* Minus sign */
+        }
+
+        .panel {
+            padding: 0 20px;
+            background-color: white;
+            max-height: 0;
+            overflow: hidden;
+            transition: max-height 0.5s ease-out, padding 0.5s ease-out;
+            border-left: 1px solid var(--border-color);
+            border-right: 1px solid var(--border-color);
+        }
+        
+        .panel.show {
+             padding: 20px 20px;
+        }
+
+        .panel ul {
+            list-style-type: none;
+            padding-left: 10px;
+            margin: 0;
+        }
+
+        .panel li {
+            padding: 8px 0;
+            border-bottom: 1px dashed #eee;
+            color: #444;
+        }
+
+        .panel li:last-child {
+            border-bottom: none;
+        }
+
+        .panel li::before {
+            content: "\f058"; /* Font Awesome check-circle */
+            font-family: "Font Awesome 6 Free";
+            font-weight: 900;
+            color: var(--secondary-color);
+            margin-right: 12px;
+        }
+
+        /* --- Footer --- */
+        footer {
+            text-align: center;
+            margin-top: 50px;
+            color: #777;
+            font-size: 0.9rem;
+        }
+        
+        /* --- Responsive Design --- */
+        @media (max-width: 768px) {
+            body { padding: 10px; }
+            .container { padding: 10px; }
+            header h1 { font-size: 2.2rem; }
+            header h2 { font-size: 1.2rem; }
+            .course-title { font-size: 1.5rem; }
+            .course-card { padding: 20px; }
+        }
+
+    </style>
+</head>
+<body>
+
+    <div class="container">
+        <header>
+            <h1>Welcome to the Course Series</h1>
+            <h2>Bridging Medical Research with Data Science, AI, and Advanced Statistics</h2>
+        </header>
+
+        <main>
+            <!-- Course 1 -->
+            <div class="course-card">
+                <h3 class="course-title"><i class="fa-solid fa-brain"></i>Course 1: Computational Methods and Machine Learning for Medical Research</h3>
+                <p class="course-description">This course focuses on advanced predictive modeling, from classical machine learning to deep learning, with a strong emphasis on medical applications.</p>
+                
+                <div class="module-container">
+                    <button class="accordion"><i class="fa-solid fa-ruler-combined"></i>Module 1: Statistical Learning and Modeling Framework<span class="icon-toggle"></span></button>
+                    <div class="panel">
+                        <ul>
+                            <li>Regression vs. Classification</li>
+                            <li>Parametric, Non-Parametric, and Semi-Parametric Models</li>
+                            <li>Bias-Variance Tradeoff & Model Fitting (Overfitting, Underfitting)</li>
+                            <li>The Curse of Dimensionality</li>
+                            <li>Model Training, Testing, and Cross-Validation Strategies</li>
+                            <li>Model Accuracy Metrics (for classification and regression)</li>
+                            <li>Bootstrapping and Permutation Testing (for t-statistics, z-statistics)</li>
+                        </ul>
+                    </div>
+
+                    <button class="accordion"><i class="fa-solid fa-cogs"></i>Module 2: Supervised Learning Models<span class="icon-toggle"></span></button>
+                    <div class="panel">
+                        <ul>
+                            <li><b>Regression Models:</b> Linear/Multiple Linear, Polynomial/Splines, Regularization (Lasso, Ridge, Elastic Net)</li>
+                            <li><b>Classification Models:</b> Logistic Regression, Support Vector Machines (SVMs), Decision Trees & Random Forest, Generalized Additive Models (GAMs)</li>
+                        </ul>
+                    </div>
+
+                    <button class="accordion"><i class="fa-solid fa-project-diagram"></i>Module 3: Unsupervised Learning<span class="icon-toggle"></span></button>
+                    <div class="panel">
+                        <ul>
+                            <li><b>Dimensionality Reduction:</b> Principal Component Analysis (PCA)</li>
+                            <li><b>Data Visualization and Embedding:</b> t-SNE, UMAP</li>
+                            <li><b>Clustering Algorithms</b></li>
+                        </ul>
+                    </div>
+                    
+                    <button class="accordion"><i class="fa-solid fa-search-plus"></i>Module 4: Advanced Model Building and Interpretation<span class="icon-toggle"></span></button>
+                    <div class="panel">
+                        <ul>
+                            <li>Feature Selection and Engineering Techniques</li>
+                            <li>Hyperparameter Tuning and Optimization</li>
+                            <li>Model Selection and Comparison Strategies</li>
+                            <li>Model Interpretation and Feature Importance (e.g., SHAP, LIME)</li>
+                            <li>Building and Interpreting Nomograms</li>
+                        </ul>
+                    </div>
+                    
+                    <button class="accordion"><i class="fa-solid fa-microchip"></i>Module 5: Introduction to Deep Learning and AI<span class="icon-toggle"></span></button>
+                    <div class="panel">
+                        <ul>
+                            <li>Deep Learning Basics: The Gradient Descent Algorithm and Optimizers</li>
+                            <li>Introduction to PyTorch for Medical AI</li>
+                            <li>Neural Network Architectures: FNNs, CNNs, RNNs & Transformers</li>
+                        </ul>
+                    </div>
+                    
+                    <button class="accordion"><i class="fa-solid fa-laptop-medical"></i>Module 6: Biomedical AI Applications and Model Deployment<span class="icon-toggle"></span></button>
+                    <div class="panel">
+                        <ul>
+                            <li><b>Medical Imaging and Computer Vision:</b> Image pre-processing and analysis</li>
+                            <li><b>Natural Language Processing (NLP):</b> Using Large Language Models (LLMs)</li>
+                            <li><b>Specialized Applications:</b> Neural Signal Decoding (EEG), Genetic Analysis</li>
+                            <li>Using Pre-trained Models and Transfer Learning</li>
+                            <li>Creating and Deploying Interactive Models with Shiny</li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Course 2 -->
+            <div class="course-card">
+                <h3 class="course-title"><i class="fa-solid fa-book-open"></i>Course 2: Scientific Research Methodology and Medical Statistics</h3>
+                <p class="course-description">This foundational course covers the entire research lifecycle, from formulating a question to publishing results, including the essential statistical methods required.</p>
+                
+                <div class="module-container">
+                    <button class="accordion"><i class="fa-solid fa-lightbulb"></i>Module 1: Paradigms and Designs in Scientific Medical Research<span class="icon-toggle"></span></button>
+                    <div class="panel">
+                        <ul>
+                            <li>Research Philosophy and the History of Evidence-Based Medicine</li>
+                            <li>Paradigms: Positivist, Interpretivist, Pragmatist, Critical</li>
+                            <li>Hierarchy of Evidence and Quality Assessment</li>
+                            <li>Quantitative, Qualitative, and Mixed-Methods Research Designs</li>
+                            <li>Secondary Research Designs (Intro to Systematic Reviews, Meta-Analyses)</li>
+                        </ul>
+                    </div>
+
+                    <button class="accordion"><i class="fa-solid fa-tasks"></i>Module 2: Formulating a Research Question and Study Planning<span class="icon-toggle"></span></button>
+                    <div class="panel">
+                        <ul>
+                            <li>Genesis of a Strong Research Question: FINER Criteria</li>
+                            <li>The PICO(T) Framework for Clinical Questions</li>
+                            <li>Operationalizing Questions into Variables and Hypotheses</li>
+                            <li>Literature Review and Identifying Research Gaps</li>
+                        </ul>
+                    </div>
+
+                    <button class="accordion"><i class="fa-solid fa-file-signature"></i>Module 3: Protocol Development and Ethical Considerations<span class="icon-toggle"></span></button>
+                    <div class="panel">
+                        <ul>
+                            <li>Writing a Study Protocol: Aims, Methods, Timeline</li>
+                            <li>Data Collection Planning & Data Management (HIPAA)</li>
+                            <li>IRB/Ethical Approval and Informed Consent</li>
+                            <li>Protocol Registration (e.g., ClinicalTrials.gov)</li>
+                        </ul>
+                    </div>
+
+                    <button class="accordion"><i class="fa-solid fa-users"></i>Module 4: Sampling, Bias, and Sample Size<span class="icon-toggle"></span></button>
+                    <div class="panel">
+                        <ul>
+                            <li>Sampling: Probability and Non-Probability Methods</li>
+                            <li>Bias: Selection, Information, Confounding, and Observer Bias</li>
+                            <li>Strategies to Avoid Bias: Randomization, Blinding, Matching</li>
+                            <li>Sample Size Calculation: Power, Effect Size, Type I/II Errors</li>
+                        </ul>
+                    </div>
+                    
+                    <button class="accordion"><i class="fa-solid fa-calculator"></i>Module 5: Medical Statistics<span class="icon-toggle"></span></button>
+                    <div class="panel">
+                        <ul>
+                            <li>Descriptive Statistics & Normality Testing</li>
+                            <li>Univariate Analysis (Parametric and Non-parametric tests)</li>
+                            <li>Categorical Data Analysis (Chi-square, Fisher's Exact Test)</li>
+                            <li>Multivariate Analysis (Multiple Linear & Logistic Regression)</li>
+                            <li>Statistical Inference: P-values, Confidence Intervals, Hypothesis Testing</li>
+                        </ul>
+                    </div>
+
+                    <button class="accordion"><i class="fa-solid fa-project-diagram"></i>Module 6: Advanced Methodological Topics<span class="icon-toggle"></span></button>
+                    <div class="panel">
+                        <ul>
+                            <li>Causal Inference: Bradford Hill Criteria, DAGs, Propensity Scores</li>
+                            <li>Clinical Trials: Phases (I-IV), Adaptive Designs</li>
+                            <li>Quality Assessment: CONSORT, STROBE, GRADE System</li>
+                            <li>Research Integrity: Identifying Bad Research, Scientific Misconduct</li>
+                        </ul>
+                    </div>
+                    
+                    <button class="accordion"><i class="fa-solid fa-comments-dollar"></i>Module 7: Scientific Communication and Funding<span class="icon-toggle"></span></button>
+                    <div class="panel">
+                        <ul>
+                            <li>The Scientific Peer Review System</li>
+                            <li>Scientific Writing: Manuscripts, Case Reports (CARE guidelines)</li>
+                            <li>Grant Writing and Research Funding</li>
+                            <li>AI as an Intelligent Research Assistant</li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Course 3 -->
+            <div class="course-card">
+                <h3 class="course-title"><i class="fa-solid fa-sitemap"></i>Course 3: Systematic Review and Meta-analysis with AI</h3>
+                <p class="course-description">A specialized course on evidence synthesis, integrating modern AI tools to streamline the review process from search to publication.</p>
+                
+                <div class="module-container">
+                    <button class="accordion"><i class="fa-solid fa-landmark"></i>Module 1: Foundations of Systematic Reviews & Meta-Analysis<span class="icon-toggle"></span></button>
+                    <div class="panel">
+                        <ul>
+                            <li>Overview and History of Evidence Synthesis (Cochrane)</li>
+                            <li>Types of Reviews: Intervention, Diagnostic, Prognostic</li>
+                            <li>PRISMA 2020 Reporting Guidelines</li>
+                            <li>Statistical Foundations: Fixed vs. Random Effects, Heterogeneity (I²), Forest Plots</li>
+                        </ul>
+                    </div>
+                    
+                    <button class="accordion"><i class="fa-solid fa-search"></i>Module 2: Literature Search and Screening<span class="icon-toggle"></span></button>
+                    <div class="panel">
+                        <ul>
+                            <li>Scientific Databases (PubMed, Embase, Cochrane) & Grey Literature</li>
+                            <li>Advanced Search Strategy Development (MeSH, Boolean operators)</li>
+                            <li>AI-Enhanced Search: Semantic search, automated query expansion</li>
+                            <li>Screening Tools: Manual (Rayyan) and AI-Assisted (ASReview)</li>
+                            <li>Managing the PRISMA Flow Diagram</li>
+                        </ul>
+                    </div>
+                    
+                    <button class="accordion"><i class="fa-solid fa-clipboard-check"></i>Module 3: Data Extraction and Risk of Bias Assessment<span class="icon-toggle"></span></button>
+                    <div class="panel">
+                        <ul>
+                            <li>Traditional vs. AI-Assisted Data Extraction (NLP, NER)</li>
+                            <li>Risk of Bias Assessment Tools: RoB 2 (RCTs), ROBINS-I (Observational)</li>
+                            <li>Plotting and Visualizing Risk of Bias (Traffic light plots)</li>
+                        </ul>
+                    </div>
+                    
+                    <button class="accordion"><i class="fa-solid fa-chart-bar"></i>Module 4: Statistical Methods for Meta-Analysis<span class="icon-toggle"></span></button>
+                    <div class="panel">
+                        <ul>
+                            <li>Pairwise and Single-Arm Meta-Analysis</li>
+                            <li>Network Meta-Analysis (NMA)</li>
+                            <li>Diagnostic Test Accuracy Meta-Analysis (HSROC)</li>
+                            <li>Meta-Regression, Subgroup Analysis, and Trial Sequential Analysis</li>
+                        </ul>
+                    </div>
+
+                    <button class="accordion"><i class="fa-solid fa-balance-scale"></i>Module 5: Advanced Topics and Interpretation<span class="icon-toggle"></span></button>
+                    <div class="panel">
+                        <ul>
+                            <li>Publication Bias Assessment (Funnel Plots, Egger's Test)</li>
+                            <li>Sensitivity Analysis (Leave-one-out)</li>
+                            <li>The GRADE Approach for Assessing Certainty of Evidence</li>
+                        </ul>
+                    </div>
+                    
+                    <button class="accordion"><i class="fa-solid fa-file-alt"></i>Module 6: Implementation and Reporting<span class="icon-toggle"></span></button>
+                    <div class="panel">
+                        <ul>
+                            <li><b>Agentic Frameworks:</b> Coding (R: meta, metafor; Python: PyMeta) vs. No-Code Platforms</li>
+                            <li>Writing the Results and Preparing the Manuscript for Publication</li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Course 4 -->
+            <div class="course-card">
+                <h3 class="course-title"><i class="fa-solid fa-chart-line"></i>Course 4: Survival Analysis and Individual Reconstructed Data Meta-analysis</h3>
+                <p class="course-description">This course delves into time-to-event analysis and the advanced technique of reconstructing and pooling individual patient data from published studies.</p>
+                
+                <div class="module-container">
+                    <button class="accordion"><i class="fa-solid fa-hourglass-start"></i>Module 1: Introduction to Survival Analysis<span class="icon-toggle"></span></button>
+                    <div class="panel">
+                        <ul>
+                            <li>Time-to-Event Data, Censoring, Survival and Hazard Functions</li>
+                            <li>Data Structure for Survival Analysis</li>
+                        </ul>
+                    </div>
+
+                    <button class="accordion"><i class="fa-solid fa-chart-area"></i>Module 2: Non-Parametric & Semi-Parametric Methods<span class="icon-toggle"></span></button>
+                    <div class="panel">
+                        <ul>
+                            <li>Kaplan-Meier Curves and Survival Probability Estimation</li>
+                            <li>Estimating Median Survival Time</li>
+                            <li>Comparing Survival Between Groups: Log-Rank Test</li>
+                        </ul>
+                    </div>
+                    
+                    <button class="accordion"><i class="fa-solid fa-equals"></i>Module 3: The Cox Proportional Hazards Model<span class="icon-toggle"></span></button>
+                    <div class="panel">
+                        <ul>
+                            <li>Interpreting Hazard Ratios</li>
+                            <li>Building Multivariate Cox Regression Models</li>
+                            <li>Assessing the Proportional Hazards Assumption</li>
+                        </ul>
+                    </div>
+
+                    <button class="accordion"><i class="fa-solid fa-layer-group"></i>Module 4: Advanced Survival Analysis Techniques<span class="icon-toggle"></span></button>
+                    <div class="panel">
+                        <ul>
+                            <li>Time-Dependent Covariates & Landmark Analysis</li>
+                            <li>Competing Risks Analysis (Fine-Gray model)</li>
+                            <li>Conditional Survival and Smooth Survival Plots</li>
+                            <li>Parametric Survival Models (Weibull, etc.)</li>
+                        </ul>
+                    </div>
+                    
+                    <button class="accordion"><i class="fa-solid fa-user-friends"></i>Module 5: Individual Patient Data (IPD) Meta-Analysis<span class="icon-toggle"></span></button>
+                    <div class="panel">
+                        <ul>
+                            <li>Advantages of IPD over Aggregate Data</li>
+                            <li>One-stage vs. Two-stage IPD Meta-analysis</li>
+                        </ul>
+                    </div>
+
+                    <button class="accordion"><i class="fa-solid fa-vector-square"></i>Module 6: Reconstructing Individual Patient Data (IPDfromKM)<span class="icon-toggle"></span></button>
+                    <div class="panel">
+                        <ul>
+                            <li>Digitizing Kaplan-Meier Curves (Guyot Algorithm)</li>
+                            <li>Reconstructing IPD using R/Python tools</li>
+                            <li>Validating and Assessing Quality of Reconstructed Data</li>
+                            <li>Performing Meta-Analysis with Reconstructed IPD</li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Course 5 -->
+            <div class="course-card">
+                <h3 class="course-title"><i class="fa-solid fa-code"></i>Course 5: R and Python Programming for Medical Research</h3>
+                <p class="course-description">A practical, hands-on course designed to equip researchers with the fundamental programming skills needed for data analysis in R and Python.</p>
+                
+                <div class="module-container">
+                    <button class="accordion"><i class="fa-brands fa-r-project"></i>Module 1: R Programming Fundamentals<span class="icon-toggle"></span></button>
+                    <div class="panel">
+                        <ul>
+                            <li>R Basics: Data Types, Functions, Control Structures</li>
+                            <li>Data Engineering with the Tidyverse (dplyr, tidyr)</li>
+                            <li>Data Visualization with ggplot2</li>
+                        </ul>
+                    </div>
+                    
+                    <button class="accordion"><i class="fa-brands fa-python"></i>Module 2: Python Programming Fundamentals<span class="icon-toggle"></span></button>
+                    <div class="panel">
+                        <ul>
+                            <li>Python Basics for Data Science</li>
+                            <li>Data Manipulation with Pandas and NumPy</li>
+                            <li>Introduction to PyTorch for Deep Learning</li>
+                        </ul>
+                    </div>
+                    
+                    <button class="accordion"><i class="fa-solid fa-wrench"></i>Module 3: Core Data Analysis Workflow<span class="icon-toggle"></span></button>
+                    <div class="panel">
+                        <ul>
+                            <li>Data Pre-processing and Handling Missing Data (Imputation)</li>
+                            <li>Data Transformation and Encoding</li>
+                            <li>Balancing Data: Upsampling, Downsampling, Bootstrapping</li>
+                            <li>Descriptive Statistics and Normality Testing in R/Python</li>
+                        </ul>
+                    </div>
+                    
+                    <button class="accordion"><i class="fa-solid fa-flask"></i>Module 4: Statistical Testing in Code<span class="icon-toggle"></span></button>
+                    <div class="panel">
+                        <ul>
+                            <li>Implementing Parametric and Non-parametric Tests</li>
+                            <li>Bootstrapping for Confidence Intervals</li>
+                            <li>Permutation Tests</li>
+                        </ul>
+                    </div>
+                    
+                    <button class="accordion"><i class="fa-solid fa-robot"></i>Module 5: Introduction to LLMs for Research Tasks<span class="icon-toggle"></span></button>
+                    <div class="panel">
+                        <ul>
+                            <li>Using Models like Gemini for automated data extraction</li>
+                            <li>Using Models like BioMistral for prognostic tasks</li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- Course 6 -->
+            <div class="course-card">
+                <h3 class="course-title"><i class="fa-solid fa-database"></i>Course 6: Retrospective Databases Data Analysis in R and Python</h3>
+                <p class="course-description">This course provides a practical guide to working with large, real-world retrospective databases like SEER and NIS, covering the entire workflow from data extraction to advanced analysis.</p>
+                
+                <div class="module-container">
+                     <button class="accordion"><i class="fa-solid fa-server"></i>Module 1: Introduction to Retrospective Databases<span class="icon-toggle"></span></button>
+                     <div class="panel">
+                         <ul>
+                             <li>Overview of Major Databases: NSQIP, SEER, NIS</li>
+                             <li>Data Extraction Techniques and Data Dictionaries</li>
+                             <li>Ethical and Methodological Challenges</li>
+                         </ul>
+                     </div>
+
+                     <button class="accordion"><i class="fa-solid fa-filter"></i>Module 2: Data Cleaning and Processing<span class="icon-toggle"></span></button>
+                     <div class="panel">
+                         <ul>
+                             <li>Data Filtering and Subsetting Techniques</li>
+                             <li>Advanced Data Cleaning Strategies</li>
+                             <li>Dealing with Missing Data in Large Datasets</li>
+                         </ul>
+                     </div>
+
+                     <button class="accordion"><i class="fa-solid fa-map"></i>Module 3: Analysis Planning for Observational Data<span class="icon-toggle"></span></button>
+                     <div class="panel">
+                         <ul>
+                             <li>Developing a Statistical Analysis Plan (SAP)</li>
+                             <li>Controlling for Confounding</li>
+                         </ul>
+                     </div>
+
+                     <button class="accordion"><i class="fa-solid fa-link"></i>Module 4: Matching Analysis Techniques<span class="icon-toggle"></span></button>
+                     <div class="panel">
+                         <ul>
+                             <li>Propensity Score Matching (PSM)</li>
+                             <li>Propensity Score Weighting (PSW)</li>
+                             <li>Assessing Covariate Balance After Matching</li>
+                         </ul>
+                     </div>
+
+                     <button class="accordion"><i class="fa-solid fa-cubes"></i>Module 5: Multivariate Analysis in Retrospective Data<span class="icon-toggle"></span></button>
+                     <div class="panel">
+                         <ul>
+                             <li>Applying Multiple and Logistic Regression Models</li>
+                             <li>Model Building and Selection in a High-Dimensional Setting</li>
+                             <li>Interpreting Results from Observational Database Studies</li>
+                         </ul>
+                     </div>
+                </div>
+            </div>
+        </main>
+
+        <footer>
+            <p>We look forward to embarking on this learning journey with you!</p>
+        </footer>
+    </div>
+
+    <script>
+        // JavaScript for the interactive accordion
+        var accordions = document.getElementsByClassName("accordion");
+
+        for (var i = 0; i < accordions.length; i++) {
+            accordions[i].addEventListener("click", function() {
+                // Toggle active class on the button
+                this.classList.toggle("active");
+
+                // Get the panel
+                var panel = this.nextElementSibling;
+                
+                // Toggle the panel's max-height
+                if (panel.style.maxHeight) {
+                    panel.style.maxHeight = null;
+                    panel.classList.remove('show');
+                } else {
+                    panel.classList.add('show');
+                    panel.style.maxHeight = panel.scrollHeight + "px";
+                } 
+            });
+        }
+    </script>
+
+</body>
+</html>
